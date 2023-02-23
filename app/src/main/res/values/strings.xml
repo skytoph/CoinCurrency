@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Currency</string>
+
+    <string name="coin_full_name">%1$d. %2$s (%3$s)</string>
+    <string name="active">active</string>
+    <string name="inactive">inactive</string>
+    <string name="tags">Tags</string>
+    <string name="team_members">Team members</string>
 </resources>
