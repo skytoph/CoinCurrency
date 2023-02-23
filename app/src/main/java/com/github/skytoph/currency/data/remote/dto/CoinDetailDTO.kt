@@ -27,8 +27,8 @@ data class CoinDetailDTO(
     val rank: Int,
     val started_at: String,
     val symbol: String,
-    val tags: List<Tag>,
-    val team: List<TeamMember>,
+    val tags: List<Tag>?,
+    val team: List<TeamMember>?,
     val type: String,
     val whitepaper: Whitepaper
 )
@@ -41,7 +41,7 @@ fun CoinDetailDTO.toCoinDetail(): CoinDetail {
         symbol = symbol,
         rank = rank,
         isActive = is_active,
-        tags = tags.map { it.name },
-        team = team
+        tags = tags?.map { it.name } ?: emptyList(),
+        team = team ?: emptyList()
     )
 }
