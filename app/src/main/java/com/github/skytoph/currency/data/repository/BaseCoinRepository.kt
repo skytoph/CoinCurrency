@@ -1,13 +1,13 @@
 package com.github.skytoph.currency.data.repository
 
-import com.github.skytoph.currency.data.remote.RemoteDataSource
+import com.github.skytoph.currency.data.remote.CoinRemoteDataSource
 import com.github.skytoph.currency.data.remote.dto.CoinDTO
 import com.github.skytoph.currency.data.remote.dto.CoinDetailDTO
 import com.github.skytoph.currency.domain.repository.CoinRepository
 import javax.inject.Inject
 
 class BaseCoinRepository @Inject constructor(
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: CoinRemoteDataSource
 ) : CoinRepository{
 
     override suspend fun getCoins(): List<CoinDTO> =
