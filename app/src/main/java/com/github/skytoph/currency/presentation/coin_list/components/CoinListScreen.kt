@@ -10,6 +10,11 @@ fun CoinListScreen(
     navController: NavController,
     viewModel: CoinListViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.value
-    CoinList(coins = state.coins, error = state.error, isLoading = state.isLoading, navController)
+    val state = viewModel.provideState()
+    CoinList(
+        coins = state.value.coins,
+        error = state.value.error,
+        isLoading = state.value.isLoading,
+        navController
+    )
 }

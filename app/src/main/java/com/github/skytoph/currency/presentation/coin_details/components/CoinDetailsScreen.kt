@@ -8,6 +8,6 @@ import com.github.skytoph.currency.presentation.coin_details.CoinDetailViewModel
 fun CoinDetailScreen(
     viewModel: CoinDetailViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.value
-    CoinDetails(state.coin, state.error, state.isLoading)
+    val state = viewModel.provideState()
+    CoinDetails(state.value.coin, state.value.error, state.value.isLoading)
 }

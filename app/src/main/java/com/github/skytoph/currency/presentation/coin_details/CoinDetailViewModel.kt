@@ -1,13 +1,11 @@
 package com.github.skytoph.currency.presentation.coin_details
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.skytoph.currency.core.Constants
-import com.github.skytoph.currency.core.Result
 import com.github.skytoph.currency.domain.usecase.get_coin.GetCoinUseCase
+import com.github.skytoph.currency.presentation.coin_details.mapper.CoinStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,11 +14,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinUseCase,
+    private val communication: CoinStateCommunication,
+    private val mapper: CoinStateMapper,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val _state = mutableStateOf(CoinDetailState())
-    val state: State<CoinDetailState> = _state
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
@@ -30,19 +27,9 @@ class CoinDetailViewModel @Inject constructor(
 
     private fun getCoin(coinId: String) {
         getCoinUseCase(coinId).onEach { result ->
-            when (result) {
-                is Result.Success -> {
-                    _state.value = CoinDetailState(coin = result.data)
-                }
-                is Result.Error -> {
-                    _state.value = CoinDetailState(
-                        error = result.message ?: "An unexpected error occurred"
-                    )
-                }
-                is Result.Loading -> {
-                    _state.value = CoinDetailState(isLoading = true)
-                }
-            }
+            mapper.map(result).show(communication)
         }.launchIn(viewModelScope)
     }
+
+    fun provideState() = communication.provide()
 }
