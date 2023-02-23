@@ -1,4 +1,6 @@
 package com.github.skytoph.currency.core
 
-class Constants {
+object Constants {
+
+    const val BASE_URL = "https://api.coinpaprika.com/"
 }
